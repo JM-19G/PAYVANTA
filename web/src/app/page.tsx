@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { ConnectButton } from "@/components/connect-button";
+import { PolicyOverview } from "@/components/policy-overview";
 
 const EXPLORER_TX =
   "https://explorer-test.qday.info/tx/0xa172e9ec6b34294f8c446361debe4bc3576228d92d4f036401294b7cd37d9e61";
@@ -21,10 +22,6 @@ const activity: Activity[] = [
 ];
 
 export default function Home() {
-  const spent = 1;
-  const cap = 2;
-  const pct = Math.round((spent / cap) * 100);
-
   return (
     <div className="min-h-screen">
       <header className="border-b border-border bg-surface">
@@ -43,52 +40,7 @@ export default function Home() {
           <p className="text-muted">Verify. Understand. Pay confidently.</p>
         </div>
 
-        <section className="grid gap-6 md:grid-cols-3">
-          <div className="rounded-2xl border border-border bg-surface p-6 md:col-span-2">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <h2 className="font-heading text-lg font-bold">Agent policy</h2>
-                <span className="rounded-full bg-success/15 px-3 py-1 text-xs font-semibold text-success">Active</span>
-              </div>
-              <button className="rounded-lg border border-danger px-4 py-2 text-sm font-semibold text-danger hover:bg-danger/10">
-                Revoke agent
-              </button>
-            </div>
-            <div className="mt-5 grid grid-cols-3 gap-4">
-              <div className="rounded-xl bg-surface-alt p-4">
-                <p className="text-sm text-muted">Per payment</p>
-                <p className="font-heading text-xl font-bold">1 tUSD8</p>
-              </div>
-              <div className="rounded-xl bg-surface-alt p-4">
-                <p className="text-sm text-muted">Daily cap</p>
-                <p className="font-heading text-xl font-bold">2 tUSD8</p>
-              </div>
-              <div className="rounded-xl bg-surface-alt p-4">
-                <p className="text-sm text-muted">Expires</p>
-                <p className="font-heading text-xl font-bold">1 Dec 2026</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="rounded-2xl border border-border bg-surface p-6">
-            <h2 className="font-heading text-lg font-bold">Today&apos;s spend</h2>
-            <div className="mt-4 flex items-center gap-5">
-              <div
-                className="relative h-24 w-24 shrink-0 rounded-full"
-                style={{ background: `conic-gradient(var(--primary) ${pct}%, var(--surface-alt) 0)` }}
-              >
-                <div className="absolute inset-3 flex items-center justify-center rounded-full bg-surface font-heading text-lg font-bold">
-                  {pct}%
-                </div>
-              </div>
-              <div>
-                <p className="font-heading text-xl font-bold">{spent.toFixed(2)} / {cap.toFixed(2)}</p>
-                <p className="text-sm text-muted">tUSD8</p>
-              </div>
-            </div>
-            <p className="mt-4 text-xs text-muted">Resets daily at 00:00 UTC (1:00 AM WAT).</p>
-          </div>
-        </section>
+        <PolicyOverview />
 
         <section className="rounded-2xl border border-border bg-surface p-6">
           <h2 className="font-heading text-lg font-bold">Recent activity</h2>
