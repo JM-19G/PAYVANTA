@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { ConnectButton } from "@/components/connect-button";
 
 const EXPLORER_TX =
   "https://explorer-test.qday.info/tx/0xa172e9ec6b34294f8c446361debe4bc3576228d92d4f036401294b7cd37d9e61";
@@ -32,10 +33,7 @@ export default function Home() {
             <Image src="/logo.svg" alt="Payvanta logo" width={32} height={32} />
             <span className="font-heading text-lg font-bold">Payvanta</span>
           </div>
-          <div className="flex items-center gap-2 text-sm">
-            <span className="rounded-full bg-surface-alt px-3 py-1 text-muted">Aevum testnet</span>
-            <span className="rounded-full bg-surface-alt px-3 py-1 text-muted">0x3F72...1a2a</span>
-          </div>
+          <ConnectButton />
         </div>
       </header>
 
