@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useAccount, useReadContract } from "wagmi";
 import { formatUnits } from "viem";
 import { ADDRESSES, TUSD8_DECIMALS, aevum, payablesAbi } from "@/lib/aevum";
+import { RevokeButton } from "./revoke-button";
 
 const ZERO = "0x0000000000000000000000000000000000000000";
 
@@ -92,9 +93,7 @@ export function PolicyOverview() {
             <h2 className="font-heading text-lg font-bold">Agent policy</h2>
             <span className={`rounded-full px-3 py-1 text-xs font-semibold ${badge[status]}`}>{status}</span>
           </div>
-          <button className="rounded-lg border border-danger px-4 py-2 text-sm font-semibold text-danger hover:bg-danger/10">
-            Revoke agent
-          </button>
+          <RevokeButton onRevoked={() => { void policy.refetch(); }} />
         </div>
         <div className="mt-5 grid grid-cols-3 gap-4">
           <div className="rounded-xl bg-surface-alt p-4">
