@@ -1,6 +1,5 @@
-import Image from "next/image";
-import { ConnectButton } from "@/components/connect-button";
 import { PolicyOverview } from "@/components/policy-overview";
+import { SiteHeader } from "@/components/site-header";
 
 const EXPLORER_TX =
   "https://explorer-test.qday.info/tx/0xa172e9ec6b34294f8c446361debe4bc3576228d92d4f036401294b7cd37d9e61";
@@ -24,15 +23,7 @@ const activity: Activity[] = [
 export default function Home() {
   return (
     <div className="min-h-screen">
-      <header className="border-b border-border bg-surface">
-        <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
-          <div className="flex items-center gap-3">
-            <Image src="/logo.svg" alt="Payvanta logo" width={32} height={32} />
-            <span className="font-heading text-lg font-bold">Payvanta</span>
-          </div>
-          <ConnectButton />
-        </div>
-      </header>
+      <SiteHeader />
 
       <main className="mx-auto max-w-5xl space-y-6 px-6 py-8">
         <div>
