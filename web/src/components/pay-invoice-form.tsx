@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, type ReactNode } from "react";
+import Link from "next/link";
 import {
   useAccount,
   useReadContract,
@@ -251,14 +252,22 @@ export function PayInvoiceForm() {
         <p className="mt-4 text-sm text-muted">
           {amountUnits ? tusd(amountUnits) : "Your payment"} was sent to {trimmedName}.
         </p>
-        <a
-          className="mt-3 inline-block text-sm text-primary hover:underline"
-          href={`${EXPLORER}/tx/${pay.data}`}
-          target="_blank"
-          rel="noreferrer"
-        >
-          View transaction on the explorer
-        </a>
+        <div className="mt-4 flex flex-wrap items-center gap-4">
+          <Link
+            className="rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-text hover:opacity-90"
+            href={`/receipt?tx=${pay.data}`}
+          >
+            View receipt
+          </Link>
+          <a
+            className="text-sm text-primary hover:underline"
+            href={`${EXPLORER}/tx/${pay.data}`}
+            target="_blank"
+            rel="noreferrer"
+          >
+            View on the explorer
+          </a>
+        </div>
       </div>
     );
   }
