@@ -17,6 +17,7 @@ import {
   payablesAbi,
   registryAbi,
 } from "@/lib/aevum";
+import { useNowSeconds } from "@/lib/use-now";
 
 const ZERO = "0x0000000000000000000000000000000000000000";
 const ZERO_HASH = `0x${"0".repeat(64)}` as `0x${string}`;
@@ -56,7 +57,7 @@ const errText = (e: unknown) =>
 
 export function PayInvoiceForm() {
   const { address } = useAccount();
-  const [now] = useState(() => Math.floor(Date.now() / 1000));
+  const now = useNowSeconds();
   const day = BigInt(Math.floor(now / 86400));
 
   const [payee, setPayee] = useState("");
@@ -110,7 +111,7 @@ export function PayInvoiceForm() {
     functionName: "spentOnDay",
     args: [owner, day],
     chainId: aevum.id,
-    query: { enabled: Boolean(address) },
+    query: { enabled: Boolean(address) && now > 0 },
   });
   const allowance = useReadContract({
     address: ADDRESSES.tusd8,
@@ -182,7 +183,7 @@ export function PayInvoiceForm() {
   }
 
   let policyNotice: ReactNode = null;
-  if (address && amountUnits && policy.data) {
+  if (address && now > 0 && amountUnits && policy.data) {
     const [agent, perTxCap, dailyCap, expiry, active] = policy.data;
     const spent = spentToday.data ?? BigInt(0);
     if (agent.toLowerCase() === ZERO) {

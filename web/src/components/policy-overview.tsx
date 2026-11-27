@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from "react";
 import { useAccount, useReadContract } from "wagmi";
 import { formatUnits } from "viem";
 import { ADDRESSES, TUSD8_DECIMALS, aevum, payablesAbi } from "@/lib/aevum";
 import { RevokeButton } from "./revoke-button";
+import { useNowSeconds } from "@/lib/use-now";
 
 const ZERO = "0x0000000000000000000000000000000000000000";
 
@@ -22,7 +22,7 @@ const card = "rounded-2xl border border-border bg-surface p-6";
 
 export function PolicyOverview() {
   const { address } = useAccount();
-  const [now] = useState(() => Math.floor(Date.now() / 1000));
+  const now = useNowSeconds();
   const day = BigInt(Math.floor(now / 86400));
   const owner = (address ?? ZERO) as `0x${string}`;
 
@@ -41,7 +41,7 @@ export function PolicyOverview() {
     functionName: "spentOnDay",
     args: [owner, day],
     chainId: aevum.id,
-    query: { enabled: Boolean(address), refetchInterval: 15_000 },
+    query: { enabled: Boolean(address) && now > 0, refetchInterval: 15_000 },
   });
 
   if (!address) {
@@ -53,7 +53,7 @@ export function PolicyOverview() {
     );
   }
 
-  if (policy.isLoading || !policy.data) {
+  if (policy.isLoading || !policy.data || now === 0) {
     return (
       <section className={card}>
         <h2 className="font-heading text-lg font-bold">Agent policy</h2>
