@@ -12,19 +12,35 @@ const primaryBtn =
 
 export function ConnectButton() {
   const { address, isConnected, chain } = useAccount();
-  const { connect, connectors, isPending } = useConnect();
+  const { connect, connectors, isPending, error, reset } = useConnect();
   const { disconnect } = useDisconnect();
   const { switchChain, isPending: switching } = useSwitchChain();
 
+  const connector =
+    connectors.find((c) => c.id === "io.metamask" || c.name === "MetaMask") ?? connectors[0];
+
   if (!isConnected || !address) {
+    const message = error
+      ? ((error as { shortMessage?: string }).shortMessage ?? error.message)
+      : !connector
+        ? "No wallet detected. Unlock MetaMask, then reload the page."
+        : null;
+
     return (
-      <button
-        className={primaryBtn}
-        disabled={isPending || connectors.length === 0}
-        onClick={() => connect({ connector: connectors[0] })}
-      >
-        {isPending ? "Connecting..." : "Connect wallet"}
-      </button>
+      <div className="flex flex-col items-end gap-1">
+        <button
+          className={primaryBtn}
+          disabled={isPending || !connector}
+          onClick={() => {
+            if (!connector) return;
+            reset();
+            connect({ connector });
+          }}
+        >
+          {isPending ? "Connecting..." : "Connect wallet"}
+        </button>
+        {message && <p className="max-w-xs text-right text-xs text-danger">{message}</p>}
+      </div>
     );
   }
 
