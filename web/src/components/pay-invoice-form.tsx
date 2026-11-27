@@ -183,7 +183,7 @@ export function PayInvoiceForm() {
   }
 
   let policyNotice: ReactNode = null;
-  if (address && now > 0 && amountUnits && policy.data) {
+  if (address && now > 0 && amountUnits && policy.data && payeeOk) {
     const [agent, perTxCap, dailyCap, expiry, active] = policy.data;
     const spent = spentToday.data ?? BigInt(0);
     if (agent.toLowerCase() === ZERO) {
